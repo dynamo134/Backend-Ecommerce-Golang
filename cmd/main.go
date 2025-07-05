@@ -11,14 +11,16 @@ import (
 func main() {
 	println("Hello, World!")
 
-	// test DB connection
+	// set up the configuration
+	// This will load the configuration from the .env file
 	cfg, err := config.SetConfig()
 	if err != nil {
-		log.Fatalf("Failed to load config: %v", err)
+		log.Fatalf("Failed to load config from env file: %v", err)
 	}
 
+	// for testing the mongo connection
 	dbClient := config.NewMongoClient(cfg)
-	fmt.Println("✅ MongoDB connection established successfully.",dbClient)
+	fmt.Println("MongoDB connection established successfully.",dbClient)
 
 	// Initialize the server with the configuration
 	s , err := server.NewServer(cfg)
