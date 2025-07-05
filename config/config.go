@@ -3,17 +3,17 @@ package config
 import "github.com/spf13/viper"
 
 
-type Config struct {
+type AppConfig struct {
 	Port          string 
 	MongoURI        string 
 }
 
-func SetConfig() (*Config, error) {
+func SetConfig() (*AppConfig, error) {
 	viper.SetConfigFile(".env")
 	if err := viper.ReadInConfig(); err != nil {
 		return nil, err
 	}
-	config := &Config{
+	config := &AppConfig{
 		Port:     viper.GetString("PORT"),
 		MongoURI: viper.GetString("DB_URI"),
 	}

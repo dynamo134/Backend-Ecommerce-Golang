@@ -12,7 +12,7 @@ type MongoClient struct {
 	client *mongo.Client
 }
 
-func NewMongoClient(cfg *Config) *MongoClient {
+func NewMongoClient(cfg *AppConfig) *MongoClient {
 	// Initialize the database connection using cfg.MongoURI
 	// This is a placeholder for actual database initialization logic
 	uri := cfg.MongoURI
