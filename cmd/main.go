@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/dynamo134/Backend-Ecomerce-Golang/cmd/server"
-	"github.com/dynamo134/Backend-Ecomerce-Golang/config"
+	"github.com/dynamo134/Backend-Ecommerce-Golang/cmd/server"
+	"github.com/dynamo134/Backend-Ecommerce-Golang/config"
 )
 
 func main() {
