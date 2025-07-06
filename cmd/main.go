@@ -25,6 +25,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to start server, err: %v. Shutting down.", err)
 	}
+	//setup the routes
+	s.SetupRoutes()
 	
 	// Running the server
 	s.Run()
