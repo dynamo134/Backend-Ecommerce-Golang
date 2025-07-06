@@ -1,4 +1,4 @@
-module github.com/dynamo134/Backend-Ecomerce-Golang
+module github.com/dynamo134/Backend-Ecommerce-Golang
 
 go 1.23.5
 

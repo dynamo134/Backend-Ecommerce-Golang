@@ -3,7 +3,8 @@ package server
 import (
 	"log"
 
-	"github.com/dynamo134/Backend-Ecomerce-Golang/config"
+	"github.com/dynamo134/Backend-Ecommerce-Golang/config"
+	h "github.com/dynamo134/Backend-Ecommerce-Golang/pkg/api/handlers"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,7 +16,7 @@ var (
 type HTTPServer struct {
 	Engine *gin.Engine
 	Config *config.AppConfig
-	// Handlers *h.Handlers
+	Handlers *h.Handlers
 }
 
 // NewServer initializes a new HTTPServer instance with a Gin engine.
@@ -36,7 +37,7 @@ func NewServer(cfg *config.AppConfig) (*HTTPServer, error) {
 	return &HTTPServer{
 		Engine: engine,
 		Config: cfg,
-		// Handlers: h.NewHandlers(cfg), // Assuming you have a Handlers struct
+		Handlers: h.NewHandlers(cfg), // Assuming you have a Handlers struct
 	},nil
 
 }
