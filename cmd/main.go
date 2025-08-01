@@ -23,7 +23,7 @@ func main() {
 	fmt.Println("MongoDB connection established successfully.",dbClient)
 
 	// Initialize the server with the configuration
-	s , err := server.NewServer(cfg)
+	s , err := server.NewServer(cfg,dbClient)
 	if err != nil {
 		log.Fatalf("Failed to start server, err: %v. Shutting down.", err)
 	}

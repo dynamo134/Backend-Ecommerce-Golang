@@ -1,7 +1,10 @@
 package handlers
 
 import (
+	"net/http"
+
 	aService "github.com/dynamo134/Backend-Ecommerce-Golang/pkg/application/auth"
+	uContr "github.com/dynamo134/Backend-Ecommerce-Golang/pkg/contract/authUser"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,8 +19,23 @@ func NewAuthHandler(authService *aService.AuthService) *AuthHandler {
 	}
 }
 
-func (ah *AuthHandler) SignUp( c *gin.Context) {
+func (ah *AuthHandler) SignUp( ctx *gin.Context) {
 	// Implementation for user sign-up
+	// This function should handle the user registration logic
+
+	body := uContr.CreateUserRequest{}
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		return 
+	}
+
+	res , err := ah.AuthService.SignUp(ctx, &body)
+	if err != nil {
+		_ = ctx.Error(err)
+		return
+	}
+	
+	ctx.JSON(http.StatusOK, res)
+
 }
 
 func (ah *AuthHandler) SignIn(c *gin.Context) {

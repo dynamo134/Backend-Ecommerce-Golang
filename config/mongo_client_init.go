@@ -8,11 +8,9 @@ import (
 )
 
 
-type MongoClient struct {
-	client *mongo.Client
-}
+var client *mongo.Client
 
-func NewMongoClient(cfg *AppConfig) *MongoClient {
+func NewMongoClient(cfg *AppConfig) *mongo.Client {
 	// Initialize the database connection using cfg.MongoURI
 	// This is a placeholder for actual database initialization logic
 	uri := cfg.MongoURI
@@ -37,9 +35,6 @@ func NewMongoClient(cfg *AppConfig) *MongoClient {
 		panic(err)
 	}
 
-	dbClient := &MongoClient{
-		client: client,
-	}
-	return dbClient
+	return client;
 
 }

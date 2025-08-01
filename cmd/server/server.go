@@ -6,6 +6,7 @@ import (
 	"github.com/dynamo134/Backend-Ecommerce-Golang/config"
 	h "github.com/dynamo134/Backend-Ecommerce-Golang/pkg/api/handlers"
 	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 var (
@@ -25,7 +26,7 @@ type HTTPServer struct {
 // AppConfig, which includes settings like the port number. This function 
 // returns the HTTPServer instance and an error if any initialization issues occur.
 
-func NewServer(cfg *config.AppConfig) (*HTTPServer, error) {
+func NewServer(cfg *config.AppConfig, mongoClient *mongo.Client) (*HTTPServer, error) {
 	// set the Gin mode based on the environment (In future we can set this in config -> (local, dev)- debugMode, production-> releaseMode)
 	gin.SetMode(gin.ReleaseMode)
 	// Initialize the Gin engine
@@ -33,11 +34,15 @@ func NewServer(cfg *config.AppConfig) (*HTTPServer, error) {
 
 	engine.Use(gin.Logger(), gin.Recovery())
 
+	// Initialize all handlers (services inside)
+	handlers := h.InitHandlers(mongoClient)
+
+
 	// Create a new HTTPServer instance
 	return &HTTPServer{
 		Engine: engine,
 		Config: cfg,
-		Handlers: h.NewHandlers(cfg), // Assuming you have a Handlers struct
+		Handlers: handlers, // Assuming you have a Handlers struct
 	},nil
 
 }

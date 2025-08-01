@@ -8,5 +8,5 @@ func SetupRoutes(h *HTTPServer) {
 	userGroup := ecom.Group("/users")
 
 	// Top-level resource routes
-	//setupUserRoutes(userGroup, h)
+	setupUserRoutes(userGroup, h)
 }
