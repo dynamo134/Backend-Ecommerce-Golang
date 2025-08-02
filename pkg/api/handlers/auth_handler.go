@@ -54,9 +54,34 @@ func (ah *AuthHandler) SignIn(ctx *gin.Context) {
 		return
 	}
 
+	// Set the JWT token in the cookie
+	ctx.SetCookie(
+		"token",              // name
+		res.Token,       // value
+		3600,                 // expires in 1 hour
+		"/",                  // path
+		"localhost",          // domain — use frontend domain in prod
+		false,                // secure: true in HTTPS
+		true,                 // HttpOnly: yes!
+	)
+
 	ctx.JSON(http.StatusOK, res)
 }
 
-func (ah *AuthHandler) Logout(c *gin.Context) {
-	// Implementation for user sign-out
+func (ah *AuthHandler) Logout(ctx *gin.Context) {
+	// Overwrite the token cookie with empty value and expiry in the past
+	ctx.SetCookie(
+		"token",    // cookie name
+		"",         // empty value
+		-1,         // expires now
+		"/",        // path
+		"localhost",// domain (replace with frontend domain in prod)
+		false,      // secure (true in HTTPS)
+		true,       // HttpOnly
+	)
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "Logged out successfully",
+	})
 }
