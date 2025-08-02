@@ -6,6 +6,7 @@ import (
 
 	uContr "github.com/dynamo134/Backend-Ecommerce-Golang/pkg/contract/authUser"
 	aRepo "github.com/dynamo134/Backend-Ecommerce-Golang/pkg/infrastructure/persistence/auth"
+	jwtUtils "github.com/dynamo134/Backend-Ecommerce-Golang/pkg/utils"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -50,7 +51,7 @@ func (s *AuthService) SignUp(ctx context.Context, cur *uContr.CreateUserRequest)
 }
 
 
-func (s *AuthService) SignIn(ctx context.Context, sr *uContr.SignInRequest) (*uContr.SignInResponse, error) {
+func (s *AuthService) SignIn(ctx context.Context, sr *uContr.SignInRequest) (*uContr.AuthResponse, error) {
 	// Fetch user from the repository
 	user, err := s.authRepo.GetUserByUsername(ctx, sr.Username)
 	if err != nil {
@@ -62,12 +63,13 @@ func (s *AuthService) SignIn(ctx context.Context, sr *uContr.SignInRequest) (*uC
 	if err != nil {
 		return nil, err
 	}
+	// Generate JWT token
+	token, err := jwtUtils.CreateJWT(user.Name, user.ID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create JWT token: %w", err)
+	}
 	fmt.Printf("✅ User %s signed in successfully\n", user.Name)
 	// Return the user information
-	return &uContr.SignInResponse{
-		ID:    user.ID,
-		Name:  user.Name,
-		Email: user.Email,
-	}, nil
+	return toSignInResponse(token, user), nil
 }
 

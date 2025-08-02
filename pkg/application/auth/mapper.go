@@ -18,3 +18,14 @@ func fromCreateUserReq(ctx context.Context, cur *uContr.CreateUserRequest, id st
 		cur.Password,
 	)
 }
+
+func toSignInResponse(token string, user *uAgg.User) *uContr.AuthResponse {
+	return &uContr.AuthResponse{
+		Token: token,
+		User: uContr.SignInResponse{
+			ID:    user.ID,
+			Name:  user.Name,
+			Email: user.Email,
+		},
+	}
+}

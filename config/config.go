@@ -10,6 +10,7 @@ import (
 type AppConfig struct {
 	Port          string 
 	MongoURI        string 
+	JWTSecret	string
 }
 
 func SetConfig() (*AppConfig, error) {
@@ -27,6 +28,7 @@ func SetConfig() (*AppConfig, error) {
 	config := &AppConfig{
 		Port:     viper.GetString("PORT"),
 		MongoURI: viper.GetString("DB_URI"),
+		JWTSecret: viper.GetString("JWT_SECRET"),
 	}
 	return config, nil
 }
