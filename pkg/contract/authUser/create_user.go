@@ -20,3 +20,15 @@ type CreateUserResponse struct {
 	Name  string `json:"name"`
 	Email string `json:"email"`
 }
+
+
+type SignInRequest struct {
+	Username    string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+
+type SignInResponse struct {
+	ID    string `json:"id"`
+	Name  string `json:"name"`
+	Email string `json:"email"`
+}

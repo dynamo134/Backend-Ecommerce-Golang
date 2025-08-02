@@ -25,6 +25,7 @@ func (ah *AuthHandler) SignUp( ctx *gin.Context) {
 
 	body := uContr.CreateUserRequest{}
 	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
 		return 
 	}
 
@@ -38,8 +39,22 @@ func (ah *AuthHandler) SignUp( ctx *gin.Context) {
 
 }
 
-func (ah *AuthHandler) SignIn(c *gin.Context) {
+func (ah *AuthHandler) SignIn(ctx *gin.Context) {
 	// Implementation for user sign-in
+	body := uContr.SignInRequest{}
+	if err := ctx.ShouldBindJSON(&body); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
+		return
+	}
+	// Call the SignIn method of AuthService
+	res , err := ah.AuthService.SignIn(ctx, &body)
+
+	if err != nil {
+		_ = ctx.Error(err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (ah *AuthHandler) Logout(c *gin.Context) {

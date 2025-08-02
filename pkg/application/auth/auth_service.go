@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"fmt"
 
 	uContr "github.com/dynamo134/Backend-Ecommerce-Golang/pkg/contract/authUser"
 	aRepo "github.com/dynamo134/Backend-Ecommerce-Golang/pkg/infrastructure/persistence/auth"
@@ -45,6 +46,28 @@ func (s *AuthService) SignUp(ctx context.Context, cur *uContr.CreateUserRequest)
 		ID:    dbUser.ID,
 		Name:  dbUser.Name,
 		Email: dbUser.Email,
+	}, nil
+}
+
+
+func (s *AuthService) SignIn(ctx context.Context, sr *uContr.SignInRequest) (*uContr.SignInResponse, error) {
+	// Fetch user from the repository
+	user, err := s.authRepo.GetUserByUsername(ctx, sr.Username)
+	if err != nil {
+		return nil, err
+	}
+	
+	// Compare the provided password with the stored hashed password
+	err = bcrypt.CompareHashAndPassword([]byte(user.HashedPassword), []byte(sr.Password))
+	if err != nil {
+		return nil, err
+	}
+	fmt.Printf("✅ User %s signed in successfully\n", user.Name)
+	// Return the user information
+	return &uContr.SignInResponse{
+		ID:    user.ID,
+		Name:  user.Name,
+		Email: user.Email,
 	}, nil
 }
 

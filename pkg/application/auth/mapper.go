@@ -16,8 +16,5 @@ func fromCreateUserReq(ctx context.Context, cur *uContr.CreateUserRequest, id st
 		cur.Email,
 		cur.Username,
 		cur.Password,
-		cur.Gender,
-		cur.Phone,
-		cur.Address,
 	)
 }

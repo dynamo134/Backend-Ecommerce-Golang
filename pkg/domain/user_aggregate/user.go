@@ -13,11 +13,10 @@ type User struct {
 	Name           string
 	HashedPassword string
 	CreatedAt      time.Time
-	EmailVerified  bool
 }
 
 // NewUser creates a new User instance with basic validation.
-func NewUser(ctx context.Context, id, email, username, hashedPwd,gender, phone, address string  ) (*User, error) {
+func NewUser(ctx context.Context, id, email, username, hashedPwd string  ) (*User, error) {
 	email = strings.TrimSpace(email)
 	username = strings.TrimSpace(username)
 
@@ -30,7 +29,6 @@ func NewUser(ctx context.Context, id, email, username, hashedPwd,gender, phone, 
 		Email:          email,
 		Name:           username,
 		HashedPassword: hashedPwd,
-		EmailVerified:  false,
 		CreatedAt:      time.Now(),
 	}
 	return user, nil
