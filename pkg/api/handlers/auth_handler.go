@@ -69,15 +69,28 @@ func (ah *AuthHandler) SignIn(ctx *gin.Context) {
 }
 
 func (ah *AuthHandler) Logout(ctx *gin.Context) {
-	// Overwrite the token cookie with empty value and expiry in the past
+
+	//check if the user is logged in by checking the cookie
+	// If the cookie is not found, return an unauthorized error
+	_, err := ctx.Cookie("token")
+	if err != nil {
+		// Cookie not found
+		ctx.JSON(http.StatusUnauthorized, gin.H{
+			"success": false,
+			"message": "User is not logged in",
+		})
+		return
+	}
+
+	// Clear the cookie
 	ctx.SetCookie(
-		"token",    // cookie name
-		"",         // empty value
-		-1,         // expires now
-		"/",        // path
-		"localhost",// domain (replace with frontend domain in prod)
-		false,      // secure (true in HTTPS)
-		true,       // HttpOnly
+		"token",
+		"",
+		-1,
+		"/",
+		"localhost",
+		false,
+		true,
 	)
 
 	ctx.JSON(http.StatusOK, gin.H{
