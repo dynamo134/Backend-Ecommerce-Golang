@@ -5,10 +5,10 @@ func SetupPublicRoutes(h *HTTPServer) {
 	ecom := h.Engine.Group(BasePath)
 
 	// Define API Groups
-	userGroup := ecom.Group("/users")
+	userGroup := ecom.Group("/auth")
 
 	// Top-level resource routes
-	setupUserRoutes(userGroup, h)
+	setupAuthRoutes(userGroup, h)
 }
 
 func SetupPrivateRoutes(h *HTTPServer) {
