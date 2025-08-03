@@ -57,5 +57,6 @@ func (s *HTTPServer) Run() {
 }
 
 func (h *HTTPServer) SetupRoutes() {
-	SetupRoutes(h)
+	SetupPublicRoutes(h)
+	SetupPrivateRoutes(h)
 }
